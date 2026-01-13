@@ -1,35 +1,35 @@
-
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenerativeAI } from "@google/genai";
 import { Ratio } from "../types";
 
-// Always use const ai = new GoogleGenAI({apiKey: process.env.API_KEY});
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
+let genAI: GoogleGenerativeAI | null = null;
 
-export const generateInterpretation = async (ratio: Ratio): Promise<string> => {
-    
-    const prompt = `
-        Eres un analista financiero experto en México.
-        Genera una interpretación concisa y profesional en español (máximo 20 palabras) para un reporte de crédito.
-        
-        Ratio: "${ratio.name}"
-        Valor Actual: ${ratio.value}
-        Valor Año Anterior: ${ratio.previousValue}
-        
-        Ejemplo de respuesta: "La rentabilidad sobre patrimonio (ROE) creció 3.2 p.p. respecto al año anterior, indicando mejora en eficiencia del capital."
-        
-        Tu interpretación:
-    `;
+function getClient() {
+  if (genAI) return genAI;
 
-    try {
-        // Use gemini-3-flash-preview for Basic Text Tasks
-        const response = await ai.models.generateContent({
-            model: 'gemini-3-flash-preview',
-            contents: prompt,
-        });
-        // Access .text property directly (not a method)
-        return response.text?.trim() || `Sin interpretación disponible para ${ratio.name}.`;
-    } catch (error) {
-        console.error("Error generating interpretation:", error);
-        return `Error al generar interpretación para ${ratio.name}.`;
-    }
-};
+  const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+  if (!apiKey) return null;
+
+  genAI = new GoogleGenerativeAI(apiKey);
+  return genAI;
+}
+
+export async function generateInterpretation(
+  ratio: Ratio
+): Promise<string> {
+  const client = getClient();
+  if (!client) return "API Key no configurada";
+
+  const model = client.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+  const prompt = `
+Eres un analista financiero experto en México.
+Ratio: "${ratio.name}"
+Valor Actual: ${ratio.value}
+Valor Año Anterior: ${ratio.previousValue}
+Genera una interpretación profesional (máx. 20 palabras).
+`;
+
+  const result = await model.generateContent(prompt);
+  return result.response.text() ?? "Sin respuesta";
+}
+
