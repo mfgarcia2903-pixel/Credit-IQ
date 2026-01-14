@@ -3,7 +3,14 @@ import { GoogleGenAI } from "@google/genai";
 import { Ratio } from "../types";
 
 // Always use const ai = new GoogleGenAI({apiKey: process.env.API_KEY});
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
+const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+
+if (!apiKey) {
+  throw new Error("VITE_GEMINI_API_KEY no está definida");
+}
+
+const ai = new GoogleGenAI({ apiKey });
+
 
 export const generateInterpretation = async (ratio: Ratio): Promise<string> => {
     
