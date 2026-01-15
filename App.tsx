@@ -1,18 +1,18 @@
 
 import React, { useState, useCallback, useRef, useEffect } from 'react';
-import { AppProvider, useAppContext } from './hooks/useAppContext';
-import Sidebar from './components/Sidebar';
-import Dashboard from './components/Dashboard';
-import Landing from './components/Landing';
-import Questionnaire from './components/Questionnaire';
-import Analysis from './components/Analysis';
-import Report from './components/Report';
-import Summary from './components/Summary';
-import Login from './components/Login';
-import UserManagement from './components/UserManagement';
-import ProfileModal from './components/ProfileModal';
-import Logo from './components/Logo';
-import { AppStep, UserRole } from './types';
+import { AppProvider, useAppContext } from './hooks/useAppContext.tsx';
+import Sidebar from './components/Sidebar.tsx';
+import Dashboard from './components/Dashboard.tsx';
+import Landing from './components/Landing.tsx';
+import Questionnaire from './components/Questionnaire.tsx';
+import Analysis from './components/Analysis.tsx';
+import Report from './components/Report.tsx';
+import Summary from './components/Summary.tsx';
+import Login from './components/Login.tsx';
+import UserManagement from './components/UserManagement.tsx';
+import ProfileModal from './components/ProfileModal.tsx';
+import Logo from './components/Logo.tsx';
+import { AppStep, UserRole } from './types.ts';
 import { ArrowLeft, LogOut, Users, User, ChevronDown, List, Settings, BarChart3, Loader2 } from 'lucide-react';
 
 const AppContent: React.FC = () => {
@@ -71,7 +71,6 @@ const AppContent: React.FC = () => {
 
     return (
         <div className="h-screen font-sans flex flex-col bg-slate-950 text-white overflow-hidden">
-            {/* SPINNER GLOBAL NO BLOQUEANTE */}
             {isAppLoading && (
                 <div className="fixed inset-0 z-[100] bg-slate-950/40 backdrop-blur-[2px] flex items-center justify-center">
                     <div className="bg-slate-900 border border-slate-800 p-8 rounded-2xl shadow-2xl flex flex-col items-center gap-4">
