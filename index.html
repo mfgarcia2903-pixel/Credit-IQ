@@ -26,6 +26,20 @@
                 600: '#8B5CF6',
                 800: '#6D28D9',
               }
+            },
+            keyframes: {
+              'fade-in': {
+                '0%': { opacity: '0' },
+                '100%': { opacity: '1' },
+              },
+              'slide-in-up': {
+                '0%': { transform: 'translateY(10px)', opacity: '0' },
+                '100%': { transform: 'translateY(0)', opacity: '1' },
+              }
+            },
+            animation: {
+              'fade-in': 'fade-in 0.4s ease-out forwards',
+              'slide-in-up': 'slide-in-up 0.5s ease-out forwards',
             }
           }
         }
@@ -50,9 +64,15 @@
   }
 }
 </script>
+<style>
+  /* Fallback en caso de que Tailwind no cargue a tiempo */
+  .animate-fade-in { opacity: 0; }
+  .animate-slide-in-up { opacity: 0; }
+</style>
+<link rel="stylesheet" href="/index.css">
 </head>
 <body class="bg-slate-950 text-white">
     <div id="root"></div>
-    <script type="module" src="./index.tsx"></script>
+    <script type="module" src="/index.tsx"></script>
 </body>
 </html>

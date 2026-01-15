@@ -1,6 +1,6 @@
 
-import * as firebaseApp from 'firebase/app';
-import * as firebaseAuth from 'firebase/auth';
+import { initializeApp } from 'firebase/app';
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, updatePassword } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 
@@ -13,13 +13,23 @@ const firebaseConfig = {
   appId: "1:62902722268:web:3938d4227121d32a87de19"
 };
 
-// Workaround for environments where named exports are missing
-const initializeApp = (firebaseApp as any).initializeApp || (firebaseApp as any).default?.initializeApp;
-const getAuth = (firebaseAuth as any).getAuth || (firebaseAuth as any).default?.getAuth;
-
-const app = initializeApp ? initializeApp(firebaseConfig) : {} as any;
-const auth = getAuth ? getAuth(app) : {} as any;
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-export { app, auth, db, storage, ref, uploadBytes, getDownloadURL, deleteObject };
+export { 
+  app, 
+  auth, 
+  db, 
+  storage, 
+  ref, 
+  uploadBytes, 
+  getDownloadURL, 
+  deleteObject,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signOut,
+  updatePassword
+};
